@@ -2,28 +2,22 @@
 var URL = 'http://api.icndb.com/jokes/random';
 
 
-// UI vars
-var button = document.querySelector('#get-joke');
-var para = document.querySelector('#joke');
-
-// Event listeners
-button.addEventListener('click', function() {
-  getJoke();
+// UI vars and events listeners bindings
+var $button = $('#get-joke').click(function() {
+  getJoke()
 });
+var $para = $('#joke');
 
 function getJoke() {
- var xhr = new XMLHttpRequest();
- xhr.open('GET', URL);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      var res = JSON.parse(xhr.response);
+  $.ajax({
+    method: 'GET',
+    url: URL,
+    success: function(res) {
       var joke = res.value.joke;
-      para.innerHTML = joke;
-    };
-  };
-  xhr.send();
-};
+      $para.text(joke);
+    }
+  })
+}
 
 getJoke();
-
 
